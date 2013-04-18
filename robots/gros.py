@@ -10,7 +10,7 @@ class GrosRobot(Robot):
         self.side = "red"
 
         # Dimension du robot
-        self.dimesions = { "left": 1290, "right": 1290,
+        self.dimensions = { "left": 1290, "right": 1290,
                 "front": 1190, "back": 920 }
 
         # Position initial du robot
