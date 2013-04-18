@@ -18,12 +18,13 @@ class Dispatcher(Thread):
         missions = set(class_loader(path))
         self.missions = []
         for mission in missions:
-            print("Load:", mission.__name__)
-            m = mission()
-            m.robot = self.robot
-            for channel in self.comm.channels:
-                setattr(m, channel, self.comm.channels[channel])
-            self.missions += [m]
+            if mission.__name__ != "mission":
+                print("Load:", mission.__name__)
+                m = mission()
+                m.robot = self.robot
+                for channel in self.comm.channels:
+                    setattr(m, channel, self.comm.channels[channel])
+                self.missions += [m]
 
     def add_event(self, event):
         self.queue.put(event, True, None)
