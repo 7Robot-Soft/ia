@@ -5,18 +5,30 @@ import sys
 from time import sleep
 import settings
 from ia import IA
+from argparse import ArgumentParser
+from ipython import IPython
 
-if len(sys.argv) != 2:
-    print("Usage: %s ROBOT" %sys.argv[0])
-    print("where  ROBOT := { petit | gros }")
-    exit(1)
+parser = ArgumentParser(description='Eurobot IA')
+parser.add_argument("name")
+parser.add_argument("-k", "--kernel", action="store_true", help="launch ipython kernel")
+parser.add_argument("-s", "--shell", action="store_true", help="launch ipython shell")
 
-robot_name = sys.argv[1]
-if not robot_name in settings.robots:
-    print("Robot '%s' unavailable" %robot_name)
-    print("Available robots :")
-    for robot in settings.robots:
-        print("\t", robot)
-    exit(1)
+args = parser.parse_args()
 
-ia = IA(robot_name)
+if args.name not in settings.robots:
+    print("Error: unknow robot '%s', available robots are: %s"
+            %(args.name, ','.join(settings.robots)), file=sys.stderr)
+    sys.exit(1)
+
+ia = IA(args.name)
+
+#from IPython.parallel import bind_kernel
+
+#bind_kernel()
+
+#ipython = IPython()
+
+#if args.shell:
+#    ipython.start(True)
+#elif args.kernel:
+#    ipython.start()

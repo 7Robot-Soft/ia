@@ -1,19 +1,39 @@
-#-*- coding: utf-8 -*-
+import sys
+sys.path.append("../atp/")
+from channel import Channel
+import socket
+from events.event import Event
 
-from threading import Thread, Event
+class Comm:
 
-class Comm(Thread):
+    def __init__(self, robot, callback = None):
 
-    def __init__(self, mail):
-        Thread.__init__(self)
-        self.running = Event()
-        self.mail = mail
+        self.robot = robot
+        self._callback = callback
 
-    def run(self):
-        pass
+        self.channels = dict()
+        self.streams = dict()
 
-    def notify(self):
-        pass
+        host = "localhost"
 
-    def stop(self):
-        self.running.set()
+        for device in self.robot.devices:
+            sock = socket.socket()
+            port = self.robot.devices[device]
+            sock.connect((host, port))
+            file = sock.makefile(mode="rw")
+            stream = file.buffer
+            channel = Channel(stream, lambda name, args: self.callback(device, name, args), proto = device)
+            self.channels[device] = channel
+            self.streams[device] = (sock, file, stream)
+
+    def callback(self, proto, name, args):
+        if self._callback == None:
+            print("[%s.%s]" %(proto, name))
+            for arg in args:
+                print("\t%s:" %arg, args[arg])
+        else:
+            event = Event(proto, name, args)
+            self._callback(event)
+
+    def set_callback(self, callback):
+        self._callback = callback
