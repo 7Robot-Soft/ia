@@ -21,7 +21,7 @@ class Dispatcher(Thread):
         self.missions = []
         for mission in missions:
             if mission.__name__ != "mission":
-                self.logger.info("Load:", mission.__name__)
+                self.logger.info("Load: %s" %mission.__name__)
                 m = mission()
                 m.robot = self.robot
                 for channel in self.comm.channels:
