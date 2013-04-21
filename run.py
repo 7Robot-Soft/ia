@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
-#-*- coding: utf-8 -*-
 
 import sys
 from time import sleep
 import settings
 from ia import IA
 from argparse import ArgumentParser
+from logging.config import fileConfig
 
 parser = ArgumentParser(description='Eurobot IA')
 parser.add_argument("name")
-parser.add_argument("-k", "--kernel", action="store_true", help="launch ipython kernel")
-parser.add_argument("-s", "--shell", action="store_true", help="launch ipython shell")
+parser.add_argument("-s", "--shell", action="store_true", help="Launch IPython shell.")
 
 args = parser.parse_args()
 
@@ -19,13 +18,16 @@ if args.name not in settings.robots:
             %(args.name, ','.join(settings.robots)), file=sys.stderr)
     sys.exit(1)
 
+f = open('robots/'+args.name+'.ini')
+fileConfig(f)
+f.close()
+
 ia = IA(args.name)
 
-#from IPython.parallel import bind_kernel
-#bind_kernel()
-
-ipython = IPython({"ia": ia})
-
-if args.shell or args.kernel:
-#    ipython.start()
-    ipython.run()
+if args.shell:
+    try:
+        from IPython import embed
+    except ImportError:
+        print("Error: you need IPython to launch IPython shell.", file=sys.stderr)
+    else:
+        embed()

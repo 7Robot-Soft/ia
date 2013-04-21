@@ -3,10 +3,12 @@ import os
 from tools.class_manager import class_loader
 import missions
 from queue import Queue
+from logging import getLogger
 
 class Dispatcher(Thread):
     def __init__(self, robot, comm):
         Thread.__init__(self)
+        self.logger = getLogger("dispatcher")
         self.robot = robot
         self.queue = Queue()
         self.comm = comm
@@ -19,7 +21,7 @@ class Dispatcher(Thread):
         self.missions = []
         for mission in missions:
             if mission.__name__ != "mission":
-                print("Load:", mission.__name__)
+                self.logger.info("Load:", mission.__name__)
                 m = mission()
                 m.robot = self.robot
                 for channel in self.comm.channels:
