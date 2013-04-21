@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 
 import sys
@@ -6,7 +6,6 @@ from time import sleep
 import settings
 from ia import IA
 from argparse import ArgumentParser
-from ipython import IPython
 
 parser = ArgumentParser(description='Eurobot IA')
 parser.add_argument("name")
@@ -23,12 +22,10 @@ if args.name not in settings.robots:
 ia = IA(args.name)
 
 #from IPython.parallel import bind_kernel
-
 #bind_kernel()
 
-#ipython = IPython()
+ipython = IPython({"ia": ia})
 
-#if args.shell:
-#    ipython.start(True)
-#elif args.kernel:
+if args.shell or args.kernel:
 #    ipython.start()
+    ipython.run()
