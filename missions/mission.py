@@ -9,15 +9,14 @@ class Mission:
     def __init__(self):
         self._state = 0
 
-    def _get_state(self):
+    @property
+    def state(self):
         return self._state
 
+    @state.setter
     def _set_state(self, state):
         print("[state] %s -> %s" %(self._state, state))
         self._state = state
-
-    state = property(_get_state, _set_state)
-
 
     def process_event(self, event):
         pass
