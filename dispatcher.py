@@ -1,7 +1,8 @@
 from threading import Thread
 import os
 from tools.class_manager import class_loader
-import missions
+#import missions # NON IL Y A UNE VARIABLE missions
+from missions.mission import Mission
 from queue import Queue
 from logging import getLogger
 
@@ -22,7 +23,7 @@ class Dispatcher(Thread):
         missions = set(class_loader(path))
         self.missions = []
         for mission in missions:
-            if mission.__name__ != "Mission":
+            if mission.__name__ != "Mission" and issubclass(mission, Mission):
                 self.logger.info("Loading %s" %mission.__name__)
                 m = mission()
                 m.robot = self.robot

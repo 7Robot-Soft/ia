@@ -11,6 +11,8 @@ class Mission:
         self._state = 0
         self._name = name
         self.logger = getLogger(name)
+        self.robot      = None # initialized by dispatcher.py on mission loading
+        self.dispatcher = None # initialized by dispatcher.py on mission loading
 
     def post_init(self):
         pass
@@ -36,3 +38,6 @@ class Mission:
         t = threading.Timer(duration/1000, self.dispatcher.add_event, \
                             [Event("internal", "timer", self, **{'timername':timername})])
         t.start()
+    
+    def send_event(self, event):
+        self.dispatcher.add_event(event)
