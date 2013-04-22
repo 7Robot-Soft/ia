@@ -1,6 +1,6 @@
 from robots.robot import Robot
 
-class PetitRobot(Robot):
+class TictacRobot(Robot):
     
     def __init__(self):
         
@@ -19,4 +19,5 @@ class PetitRobot(Robot):
         self.rot = 0
 
         # Périphérique
+        self.transmitter = "arm"
         self.devices = { "asserv": 1305, "sensor": 1302 }

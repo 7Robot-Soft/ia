@@ -25,7 +25,7 @@ class Comm:
             sock.connect((host, port))
             file = sock.makefile(mode="rw")
             stream = file.buffer
-            channel = Channel(stream, lambda name, args: self.callback(device, name, args), proto = device)
+            channel = Channel(stream, lambda name, args, device = device: self.callback(device, name, args), proto = device, transmitter = self.robot.transmitter)
             self.channels[device] = channel
             self.streams[device] = (sock, file, stream)
 

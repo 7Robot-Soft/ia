@@ -13,17 +13,20 @@ class Dispatcher(Thread):
         self.queue = Queue()
         self.comm = comm
         self.comm.set_callback(self.add_event)
+        self.logger.info("Loading missions…")
         self._load_all_missions(robot.name)
+        self.logger.info("All missions loaded !")
 
     def _load_all_missions(self, prefix):
         path = os.path.join(os.getcwd(), "missions", prefix)
         missions = set(class_loader(path))
         self.missions = []
         for mission in missions:
-            if mission.__name__ != "mission":
-                self.logger.info("Load: %s" %mission.__name__)
+            if mission.__name__ != "Mission":
+                self.logger.info("Loading %s" %mission.__name__)
                 m = mission()
                 m.robot = self.robot
+                m.dispatcher = self
                 for channel in self.comm.channels:
                     setattr(m, channel, self.comm.channels[channel])
                 self.missions += [m]
@@ -34,6 +37,11 @@ class Dispatcher(Thread):
     def run(self):
         while True:
             event = self.queue.get(True, None)
-            for mission in self.missions:
-                mission.process_event(event)
+            self.logger.info("Dispatch event %s(%s)" %(event.proto, event.name))
+            if event.dests == []:
+                for mission in self.missions:
+                    mission.process_event(event)
+            else:
+                for mission in event.dests:
+                    mission.process_event(event)
 

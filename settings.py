@@ -1,7 +1,5 @@
 #-*- coding: utf-8 -*-
 
-robots = ['petit', 'gros']
-
 ipython = dict()
 ipython["ip"] = "*"
 ipython["stdin_port"] = 13901

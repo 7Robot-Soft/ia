@@ -1,5 +1,5 @@
 class Event:
-    def __init__(self, proto, name, args, dests=[], **kwargs):
+    def __init__(self, proto, name, args = None, dests=[], **kwargs):
         self.proto = proto
         self.name = name
         self.args = args

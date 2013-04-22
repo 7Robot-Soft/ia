@@ -16,3 +16,7 @@ class IA:
         self.dispatcher = Dispatcher(self.robot, self.comm)
         self.dispatcher.start()
         self.logger.info("IA started !")
+        
+        from events.internal import InternalEvent
+        event = InternalEvent("start")
+        self.dispatcher.add_event(event)

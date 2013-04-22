@@ -13,11 +13,6 @@ parser.add_argument("-s", "--shell", action="store_true", help="Launch IPython s
 
 args = parser.parse_args()
 
-if args.name not in settings.robots:
-    print("Error: unknow robot '%s', available robots are: %s"
-            %(args.name, ','.join(settings.robots)), file=sys.stderr)
-    sys.exit(1)
-
 f = open('robots/'+args.name+'.ini')
 fileConfig(f)
 f.close()

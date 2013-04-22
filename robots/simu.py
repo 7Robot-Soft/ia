@@ -1,6 +1,6 @@
 from robots.robot import Robot
 
-class DemoRobot(Robot):
+class SimuRobot(Robot):
     
     def __init__(self):
         
@@ -19,4 +19,5 @@ class DemoRobot(Robot):
         self.rot = 0
 
         # Périphérique
+        self.transmitter = "pic"
         self.devices = { "asserv": 1305, "sensor": 1302 }
