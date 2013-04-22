@@ -1,5 +1,7 @@
 #-*- coding: utf-8 -*-
 
+ATP_HOST = "ash"
+
 ipython = dict()
 ipython["ip"] = "*"
 ipython["stdin_port"] = 13901

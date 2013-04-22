@@ -4,20 +4,28 @@ from channel import Channel
 import socket
 from events.event import Event
 from logging import getLogger
+from settings import ATP_HOST
 
 class Comm:
 
-    def __init__(self, robot, callback = None):
+    def __init__(self, robot, **kwargs):
 
         self.logger = getLogger("comm.comm")
 
         self.robot = robot
-        self._callback = callback
+        self._callback = None
+
+        host = ATP_HOST
+
+        for arg in kwargs:
+            if arg == "callback":
+                self._callback = kwargs[arg]
+            elif arg == "host":
+                host = kwargs[arg]
 
         self.channels = dict()
         self.streams = dict()
 
-        host = "localhost"
 
         for device in self.robot.devices:
             sock = socket.socket()
