@@ -1,10 +1,14 @@
 from missions.mission import Mission
 
-class TestMission(Mission):
+class AsservMission(Mission):
 
     def __init__(self):
         super().__init__(__name__)
     
+    def post_init(self):
+        self.pos = self.robot.pos
+        self.rot = self.robot.rot
+
     def process_event(self, e):
         if e.proto == "asserv" and e.name == "getId":
             self.asserv.id(5)

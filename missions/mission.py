@@ -12,6 +12,9 @@ class Mission:
         self._name = name
         self.logger = getLogger(name)
 
+    def post_init(self):
+        pass
+
     def _get_state(self):
         return self._state
 

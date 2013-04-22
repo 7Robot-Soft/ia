@@ -27,6 +27,7 @@ class Dispatcher(Thread):
                 m = mission()
                 m.robot = self.robot
                 m.dispatcher = self
+                m.post_init()
                 for channel in self.comm.channels:
                     setattr(m, channel, self.comm.channels[channel])
                 self.missions += [m]
