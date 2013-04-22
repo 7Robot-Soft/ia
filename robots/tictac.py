@@ -1,4 +1,5 @@
 from robots.robot import Robot
+from mathutils.types import Vertex
 
 class TictacRobot(Robot):
     
@@ -14,7 +15,7 @@ class TictacRobot(Robot):
                 "front": 1190, "back": 920 }
 
         # Position initial du robot
-        self.pos = [-12000, -7000]
+        self.pos = Vertex(-12000, -7000)
         # Orientation initial du robot
         self.rot = 0
 
