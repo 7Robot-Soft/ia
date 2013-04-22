@@ -14,6 +14,7 @@ class Dispatcher(Thread):
         self.comm = comm
         self.comm.set_callback(self.add_event)
         self.logger.info("Loading missions…")
+        self._load_all_missions('common')
         self._load_all_missions(robot.name)
         self.logger.info("All missions loaded !")
 
