@@ -1,3 +1,4 @@
+# -*-coding:UTF-8 -*
 from robots.robot import Robot
 from mathutils.types import Vertex
 
@@ -22,3 +23,7 @@ class TictacRobot(Robot):
         # Périphérique
         self.transmitter = "arm"
         self.devices = { "asserv": 1305, "sensor": 1302 }
+        
+        self.sensor_id_front_left  = 0
+        self.sensor_id_front_right = 1
+        self.sensor_id_back        = 2
