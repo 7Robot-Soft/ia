@@ -1,3 +1,4 @@
+# -*-coding:UTF-8 -*
 from threading import Thread
 import os
 from tools.class_manager import class_loader
@@ -26,8 +27,8 @@ class Dispatcher(Thread):
         for mission in missions:
             if mission.__name__ != "Mission" and issubclass(mission, Mission):
                 m = mission()
-                m.robot = self.robot
-                m.dispatcher = self
+                m.robot = self.robot # proposition, on passe le robot en argument du constructeur
+                m.dispatcher = self  # même proposition
                 m.post_init()
                 for channel in self.comm.channels:
                     setattr(m, channel, self.comm.channels[channel])
