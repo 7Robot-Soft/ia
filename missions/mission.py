@@ -29,14 +29,14 @@ class Mission:
     def process_event(self, event):
         pass
 
-    def create_timer(self, duration, timername="Timer"):
+    def create_timer(self, duration, timername=None):
         '''Cr un timer qui va envoyer un vnement Timer_end  la fin
         self.dispatch.add_event se termine immdiatement aprs l'ajout dans la queue
         donc le thread du Timer s'arrte aprs l'execution du add_event()
         donc il n'y a pas de problme d'execution concurrente entre le thread du timer
         et le dispatcher'''
         t = threading.Timer(duration/1000, self.dispatcher.add_event, \
-                            [Event("internal", "timer", self, **{'timername':timername})])
+                            [Event("internal", "timeout", {'timername':timername})])
         t.start()
     
     def send_event(self, event):
