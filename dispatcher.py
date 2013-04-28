@@ -38,9 +38,16 @@ class Dispatcher(Thread):
     def add_event(self, event):
         self.queue.put(event, True, None)
 
+    def invert(self, e):
+            # TODO
+            if e.proto == "asserv" and e.name == "pos":
+                pass
+
     def run(self):
         while True:
             event = self.queue.get(True, None)
+            if self.robot.inverted:
+                self.invert(event)
             self.logger.info("Dispatch event %s(%s)" %(event.proto, event.name))
             if event.dests == []:
                 for mission in self.missions:
