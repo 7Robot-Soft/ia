@@ -2,12 +2,12 @@
 from threading import Thread
 import os
 from tools.class_manager import class_loader
-#import missions # NON IL Y A UNE VARIABLE missions
 from missions.mission import Mission
 from queue import Queue
 from logging import getLogger
 
 class Dispatcher(Thread):
+
     def __init__(self, robot, comm):
         Thread.__init__(self)
         self.logger = getLogger("dispatcher")
@@ -38,10 +38,9 @@ class Dispatcher(Thread):
     def add_event(self, event):
         self.queue.put(event, True, None)
 
-    def invert(self, e):
-            # TODO
-            if e.proto == "asserv" and e.name == "pos":
-                pass
+    def symmetrical(self, sym):
+        for channel in self.comm.channels:
+            channel._symmetrical = sym
 
     def run(self):
         while True:

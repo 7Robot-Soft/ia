@@ -1,5 +1,3 @@
-import sys
-sys.path.append("../atp/")
 from channel import Channel
 import socket
 from events.event import Event

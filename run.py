@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+sys.path.append("../atp")
 from time import sleep
 import settings
 from ia import IA
