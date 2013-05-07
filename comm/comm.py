@@ -3,6 +3,7 @@ import socket
 from events.event import Event
 from logging import getLogger
 from settings import ATP_HOST
+from comm.internal import InternalChannel
 
 class Comm:
 
@@ -13,13 +14,14 @@ class Comm:
         self.robot = robot
         self._callback = None
 
-        host = ATP_HOST
+        self.host = ATP_HOST
 
         for arg in kwargs:
-            if arg == "callback":
-                self._callback = kwargs[arg]
-            elif arg == "host":
-                host = kwargs[arg]
+            if arg == "host":
+                self.host = kwargs[arg]
+
+    def init(self):
+
 
         self.channels = dict()
         self.streams = dict()
@@ -28,12 +30,16 @@ class Comm:
         for device in self.robot.devices:
             sock = socket.socket()
             port = self.robot.devices[device]
-            sock.connect((host, port))
+            sock.connect((self.host, port))
             file = sock.makefile(mode="rw")
             stream = file.buffer
             channel = Channel(stream, lambda name, args, device = device: self.callback(device, name, args), proto = device, transmitter = self.robot.transmitter)
             self.channels[device] = channel
             self.streams[device] = (sock, file, stream)
+
+
+        internal = InternalChannel(self.dispatcher)
+        self.channels["internal"] = internal
 
     def callback(self, proto, name, args):
         if self._callback == None:
@@ -46,3 +52,6 @@ class Comm:
 
     def set_callback(self, callback):
         self._callback = callback
+
+    def set_dispatcher(self, dispatcher):
+        self.dispatcher = dispatcher

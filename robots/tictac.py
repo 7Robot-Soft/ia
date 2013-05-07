@@ -22,7 +22,7 @@ class TictacRobot(Robot):
 
         # Périphérique
         self.transmitter = "arm"
-        self.devices = { "asserv": 1305, "sensor": 1302 }
+        self.devices = { "asserv": 1305, "mother": 1306, "turret": 1308 }
         
         self.sensor_id_front_left  = 0
         self.sensor_id_front_right = 1

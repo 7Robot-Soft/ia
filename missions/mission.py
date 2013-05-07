@@ -38,6 +38,10 @@ class Mission:
         t = threading.Timer(duration/1000, self.dispatcher.add_event, \
                             [Event("internal", "timeout", {'timername':timername})])
         t.start()
+
+    def create_event(self, proto, name, args = dict()):
+        e = Event(proto, name, args)
+        self.dispatcher.add_event(event)
     
     def send_event(self, event):
         self.dispatcher.add_event(event)

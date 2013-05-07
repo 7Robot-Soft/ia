@@ -15,6 +15,8 @@ class Dispatcher(Thread):
         self.queue = Queue()
         self.comm = comm
         self.comm.set_callback(self.add_event)
+        self.comm.set_dispatcher(self)
+        self.comm.init()
         self.logger.info("Loading missions…")
         self._load_all_missions('common')
         self._load_all_missions(robot.name)
