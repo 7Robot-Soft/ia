@@ -1,0 +1,14 @@
+# -*-coding:UTF-8 -*
+
+from missions.mission import Mission
+from events.internal import InternalEvent
+
+
+class PositioningMission(Mission):
+
+    def __init__(self):
+        super().__init__(__name__)
+    
+    def process_event(self, e):
+        if self.state == 0 and e.proto == "internal" and e.name == "positioning":
+            self.state = 1
