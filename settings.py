@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-ATP_HOST = "ash"
+ATP_HOST = "tictac"
 
 ipython = dict()
 ipython["ip"] = "*"

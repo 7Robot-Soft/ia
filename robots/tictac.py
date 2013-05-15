@@ -12,8 +12,7 @@ class TictacRobot(Robot):
         self.side = "red"
 
         # Dimension du robot
-        self.dimensions = { "left": 1290, "right": 1290,
-                "front": 1190, "back": 920 }
+        self.dimensions = { "left": 0.15, "right": 0.15, "front": 0.1, "back": 0.1 }
 
         # Position initial du robot
         self.pos = Vertex(-12000, -7000)

@@ -9,11 +9,13 @@ class SymmetricalMission(Mission):
         super().__init__(__name__)
     
     def post_init(self):
-        pass
+        self.mother.getSwitchOneState()
 
     def process_event(self, e):
 
-        if e.proto == "asserv" and e.name == "sideX":
-            self.dispatcher.symmetrical(False)
-        elif e.proto == "sensor" and e.name == "sideY":
-            self.dispatcher.symmetrical(True)
+        if e.proto == "asserv" and e.name == "switchOne":
+            if e.args["state"] == 0:
+                self.dispatcher.symmetrical(False)
+            else:
+                self.dispatcher.symmetrical(True)
+        

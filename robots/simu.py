@@ -21,4 +21,4 @@ class SimuRobot(Robot):
 
         # Périphérique
         self.transmitter = "pic"
-        self.devices = { "asserv": 1305, "sensor": 1302 }
+        self.devices = { "asserv": 1305 }

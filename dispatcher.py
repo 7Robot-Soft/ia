@@ -25,24 +25,27 @@ class Dispatcher(Thread):
     def _load_all_missions(self, prefix):
         path = os.path.join(os.getcwd(), "missions", prefix)
         missions = set(class_loader(path))
-        self.missions = []
+        self.missions = {}
         for mission in missions:
             if mission.__name__ != "Mission" and issubclass(mission, Mission):
                 m = mission()
+                m.missions = self.missions
                 m.robot = self.robot # proposition, on passe le robot en argument du constructeur
                 m.dispatcher = self  # même proposition
-                m.post_init()
                 for channel in self.comm.channels:
                     setattr(m, channel, self.comm.channels[channel])
-                self.missions += [m]
-                self.logger.info("%s loaded" %mission.__name__)
+                    missionName = mission.__name__[:-7].lower()
+                m.post_init()
+                print(missionName)
+                self.missions[missionName] = m
+                self.logger.info("%s loaded" % missionName)
 
     def add_event(self, event):
         self.queue.put(event, True, None)
 
     def symmetrical(self, sym):
         for channel in self.comm.channels:
-            channel._symmetrical = sym
+            self.comm.channels[channel]._symmetrical = sym
 
     def run(self):
         while True:
@@ -51,7 +54,7 @@ class Dispatcher(Thread):
                 self.invert(event)
             self.logger.info("Dispatch event %s(%s)" %(event.proto, event.name))
             if event.dests == []:
-                for mission in self.missions:
+                for mission in self.missions.values():
                     mission.process_event(event)
             else:
                 for mission in event.dests:

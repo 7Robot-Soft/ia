@@ -1,5 +1,6 @@
 from channel import Channel
 import socket
+import sys
 from events.event import Event
 from logging import getLogger
 from settings import ATP_HOST
@@ -30,7 +31,11 @@ class Comm:
         for device in self.robot.devices:
             sock = socket.socket()
             port = self.robot.devices[device]
-            sock.connect((self.host, port))
+            try:
+                sock.connect((self.host, port))
+            except:
+                print("Failed to connect on %s:%d" % (self.host, port))
+                sys.exit(-1)
             file = sock.makefile(mode="rw")
             stream = file.buffer
             channel = Channel(stream, lambda name, args, device = device: self.callback(device, name, args), proto = device, transmitter = self.robot.transmitter)
